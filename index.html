@@ -1,0 +1,511 @@
+<html>
+<br/><hr/><h3><a href="https://docs.ansible.com/ansible/latest/modules/apt_module.html">apt</a></h3><pre>
+- name: Manages apt-packages
+  apt:
+      allow_unauthenticated:   # Ignore if packages cannot be authenticated. This is useful for bootstrapping environments that manage their own apt-key setup. `allow_unauthenticated' is only supported with state:
+                               `install'/`present'
+      autoclean:             # If `yes', cleans the local repository of retrieved package files that can no longer be downloaded.
+      autoremove:            # If `yes', remove unused dependency packages for all module states except `build-dep'. It can also be used as the only option. Previous to version 2.4, autoclean was also an alias
+                               for autoremove, now it is its own separate command. See documentation for further information.
+      cache_valid_time:      # Update the apt cache if its older than the `cache_valid_time'. This option is set in seconds. As of Ansible 2.4, this sets `update_cache=yes'.
+      deb:                   # Path to a .deb package on the remote machine. If :// in the path, ansible will attempt to download deb before installing. (Version added 2.1)
+      default_release:       # Corresponds to the `-t' option for `apt' and sets pin priorities
+      dpkg_options:          # Add dpkg options to apt command. Defaults to '-o "Dpkg::Options::=--force-confdef" -o "Dpkg::Options::=--force-confold"' Options should be supplied as comma separated list
+      force:                 # Corresponds to the `--force-yes' to `apt-get' and implies `allow_unauthenticated: yes' This option will disable checking both the packages' signatures and the certificates of the
+                               web servers they are downloaded from. This option *is not* the equivalent of passing the `-f' flag to `apt-get' on the command line **This is a
+                               destructive operation with the potential to destroy your system, and it should almost never be used.** Please also see `man apt-get' for more
+                               information.
+      force_apt_get:         # Force usage of apt-get instead of aptitude
+      install_recommends:    # Corresponds to the `--no-install-recommends' option for `apt'. `yes' installs recommended packages.  `no' does not install recommended packages. By default, Ansible will use the
+                               same defaults as the operating system. Suggested packages are never installed.
+      name:                  # A list of package names, like `foo', or package specifier with version, like `foo=1.0'. Name wildcards (fnmatch) like `apt*' and version wildcards like `foo=1.0*' are also
+                               supported.
+      only_upgrade:          # Only upgrade a package if it is already installed.
+      purge:                 # Will force purging of configuration files if the module state is set to `absent'.
+      state:                 # Indicates the desired package state. `latest' ensures that the latest version is installed. `build-dep' ensures the package build dependencies are installed.
+      update_cache:          # Run the equivalent of `apt-get update' before the operation. Can be run as part of the package installation or as a separate step.
+      upgrade:               # If yes or safe, performs an aptitude safe-upgrade. If full, performs an aptitude full-upgrade. If dist, performs an apt-get dist-upgrade. Note: This does not upgrade a specific
+                               package, use state=latest for that. Note: Since 2.4, apt-get is used as a fall-back if aptitude is not present.
+</pre>
+<br/><hr/><h3><a href="https://docs.ansible.com/ansible/latest/modules/blockinfile_module.html">blockinfile</a></h3><pre>
+- name: Insert/update/remove a text block surrounded by marker lines
+  blockinfile:
+      attributes:            # Attributes the file or directory should have. To get supported flags look at the man page for `chattr' on the target system. This string should contain the attributes in the same
+                               order as the one displayed by `lsattr'. `=' operator is assumed as default, otherwise `+' or `-' operators need to be included in the string.
+      backup:                # Create a backup file including the timestamp information so you can get the original file back if you somehow clobbered it incorrectly.
+      block:                 # The text to insert inside the marker lines. If it's missing or an empty string, the block will be removed as if `state' were specified to `absent'.
+      create:                # Create a new file if it doesn't exist.
+      group:                 # Name of the group that should own the file/directory, as would be fed to `chown'.
+      insertafter:           # If specified, the block will be inserted after the last match of specified regular expression. A special value is available; `EOF' for inserting the block at the end of the file.
+                               If specified regular expression has no matches, `EOF' will be used instead.
+      insertbefore:          # If specified, the block will be inserted before the last match of specified regular expression. A special value is available; `BOF' for inserting the block at the beginning of the
+                               file.  If specified regular expression has no matches, the block will be inserted at the end of the file.
+      marker:                # The marker line template. "{mark}" will be replaced with the values in marker_begin (default="BEGIN") and marker_end (default="END").
+      marker_begin:          # This will be inserted at {mark} in the opening ansible block marker.
+      marker_end:            # This will be inserted at {mark} in the closing ansible block marker.
+      mode:                  # Mode the file or directory should be. For those used to `/usr/bin/chmod' remember that modes are actually octal numbers. You must either add a leading zero so that Ansible's YAML
+                               parser knows it is an octal number (like `0644' or `01777') or quote it (like `'644'' or `'1777'') so Ansible receives a string and can do its own
+                               conversion from string into number.  Giving Ansible a number without following one of these rules will end up with a decimal number which will have
+                               unexpected results. As of version 1.8, the mode may be specified as a symbolic mode (for example, `u+rwx' or `u=rw,g=r,o=r').
+      owner:                 # Name of the user that should own the file/directory, as would be fed to `chown'.
+      path:                  # (required) The file to modify. Before 2.3 this option was only usable as `dest', `destfile' and `name'.
+      selevel:               # Level part of the SELinux file context. This is the MLS/MCS attribute, sometimes known as the `range'. `_default' feature works as for `seuser'.
+      serole:                # Role part of SELinux file context, `_default' feature works as for `seuser'.
+      setype:                # Type part of SELinux file context, `_default' feature works as for `seuser'.
+      seuser:                # User part of SELinux file context. Will default to system policy, if applicable. If set to `_default', it will use the `user' portion of the policy if available.
+      state:                 # Whether the block should be there or not.
+      unsafe_writes:         # By default this module uses atomic operations to prevent data corruption or inconsistent reads from the target files, but sometimes systems are configured or just broken in ways
+                               that prevent this. One example is docker mounted files, which cannot be updated atomically from inside the container and can only be written in an
+                               unsafe manner. This option allows Ansible to fall back to unsafe methods of updating files when atomic operations fail (however, it doesn't force
+                               Ansible to perform unsafe writes). IMPORTANT! Unsafe writes are subject to race conditions and can lead to data corruption.
+      validate:              # The validation command to run before copying into place. The path to the file to validate is passed in via '%s' which must be present as in the example below. The command is passed
+                               securely so shell features like expansion and pipes won't work.
+</pre>
+<br/><hr/><h3><a href="https://docs.ansible.com/ansible/latest/modules/command_module.html">command</a></h3><pre>
+- name: Executes a command on a remote node
+  command:
+      argv:                  # Allows the user to provide the command as a list vs. a string.  Only the string or the list form can be provided, not both.  One or the other must be provided.
+      chdir:                 # Change into this directory before running the command.
+      creates:               # A filename or (since 2.0) glob pattern. If it already exists, this step *won't* be run.
+      free_form:             # (required) The command module takes a free form command to run.  There is no parameter actually named 'free form'. See the examples!
+      removes:               # A filename or (since 2.0) glob pattern. If it already exists, this step *will* be run.
+      stdin:                 # Set the stdin of the command directly to the specified value.
+      warn:                  # If command_warnings are on in ansible.cfg, do not warn about this particular line if set to `no'.
+</pre>
+<br/><hr/><h3><a href="https://docs.ansible.com/ansible/latest/modules/copy_module.html">copy</a></h3><pre>
+- name: Copies files to remote locations
+  copy:
+      attributes:            # Attributes the file or directory should have. To get supported flags look at the man page for `chattr' on the target system. This string should contain the attributes in the same
+                               order as the one displayed by `lsattr'. `=' operator is assumed as default, otherwise `+' or `-' operators need to be included in the string.
+      backup:                # Create a backup file including the timestamp information so you can get the original file back if you somehow clobbered it incorrectly.
+      checksum:              # SHA1 checksum of the file being transferred. Used to validate that the copy of the file was successful. If this is not provided, ansible will use the local calculated checksum of
+                               the src file.
+      content:               # When used instead of `src', sets the contents of a file directly to the specified value. For anything advanced or with formatting also look at the template module.
+      decrypt:               # This option controls the autodecryption of source files using vault.
+      dest:                  # (required) Remote absolute path where the file should be copied to. If `src' is a directory, this must be a directory too. If `dest' is a nonexistent path and if either `dest' ends
+                               with "/" or `src' is a directory, `dest' is created. If `src' and `dest' are files, the parent directory of `dest' isn't created: the task fails if it
+                               doesn't already exist.
+      directory_mode:        # When doing a recursive copy set the mode for the directories. If this is not set we will use the system defaults. The mode is only set on directories which are newly created, and
+                               will not affect those that already existed.
+      follow:                # This flag indicates that filesystem links in the destination, if they exist, should be followed.
+      force:                 # the default is `yes', which will replace the remote file when contents are different than the source. If `no', the file will only be transferred if the destination does not exist.
+      group:                 # Name of the group that should own the file/directory, as would be fed to `chown'.
+      local_follow:          # This flag indicates that filesystem links in the source tree, if they exist, should be followed.
+      mode:                  # Mode the file or directory should be. For those used to `/usr/bin/chmod' remember that modes are actually octal numbers. You must either add a leading zero so that Ansible's YAML
+                               parser knows it is an octal number (like `0644' or `01777') or quote it (like `'644'' or `'1777'') so Ansible receives a string and can do its own
+                               conversion from string into number.  Giving Ansible a number without following one of these rules will end up with a decimal number which will have
+                               unexpected results.  As of version 1.8, the mode may be specified as a symbolic mode (for example, `u+rwx' or `u=rw,g=r,o=r').  As of version 2.3, the
+                               mode may also be the special string `preserve'.  `preserve' means that the file will be given the same permissions as the source file.
+      owner:                 # Name of the user that should own the file/directory, as would be fed to `chown'.
+      remote_src:            # If `no', it will search for `src' at originating/master machine. If `yes' it will go to the remote/target machine for the `src'. Default is `no'. Currently `remote_src' does not
+                               support recursive copying. `remote_src' only works with `mode=preserve' as of version 2.6.
+      selevel:               # Level part of the SELinux file context. This is the MLS/MCS attribute, sometimes known as the `range'. `_default' feature works as for `seuser'.
+      serole:                # Role part of SELinux file context, `_default' feature works as for `seuser'.
+      setype:                # Type part of SELinux file context, `_default' feature works as for `seuser'.
+      seuser:                # User part of SELinux file context. Will default to system policy, if applicable. If set to `_default', it will use the `user' portion of the policy if available.
+      src:                   # Local path to a file to copy to the remote server; can be absolute or relative. If path is a directory, it is copied recursively. In this case, if path ends with "/", only inside
+                               contents of that directory are copied to destination. Otherwise, if it does not end with "/", the directory itself with all contents is copied. This
+                               behavior is similar to Rsync.
+      unsafe_writes:         # By default this module uses atomic operations to prevent data corruption or inconsistent reads from the target files, but sometimes systems are configured or just broken in ways
+                               that prevent this. One example is docker mounted files, which cannot be updated atomically from inside the container and can only be written in an
+                               unsafe manner. This option allows Ansible to fall back to unsafe methods of updating files when atomic operations fail (however, it doesn't force
+                               Ansible to perform unsafe writes). IMPORTANT! Unsafe writes are subject to race conditions and can lead to data corruption.
+      validate:              # The validation command to run before copying into place. The path to the file to validate is passed in via '%s' which must be present as in the example below. The command is passed
+                               securely so shell features like expansion and pipes won't work.
+</pre>
+<br/><hr/><h3><a href="https://docs.ansible.com/ansible/latest/modules/cron_module.html">cron</a></h3><pre>
+- name: Manage cron.d and crontab entries
+  cron:
+      backup:                # If set, create a backup of the crontab before it is modified. The location of the backup is returned in the `backup_file' variable by this module.
+      cron_file:             # If specified, uses this file instead of an individual user's crontab. If this is a relative path, it is interpreted with respect to /etc/cron.d. (If it is absolute, it will
+                               typically be /etc/crontab). Many linux distros expect (and some require) the filename portion to consist solely of upper- and lower-case letters,
+                               digits, underscores, and hyphens. To use the `cron_file' parameter you must specify the `user' as well.
+      day:                   # Day of the month the job should run ( 1-31, *, */2, etc )
+      disabled:              # If the job should be disabled (commented out) in the crontab. Only has effect if `state=present'.
+      env:                   # If set, manages a crontab's environment variable. New variables are added on top of crontab. "name" and "value" parameters are the name and the value of environment variable.
+      hour:                  # Hour when the job should run ( 0-23, *, */2, etc )
+      insertafter:           # Used with `state=present' and `env'. If specified, the environment variable will be inserted after the declaration of specified environment variable.
+      insertbefore:          # Used with `state=present' and `env'. If specified, the environment variable will be inserted before the declaration of specified environment variable.
+      job:                   # The command to execute or, if env is set, the value of environment variable. The command should not contain line breaks. Required if state=present.
+      minute:                # Minute when the job should run ( 0-59, *, */2, etc )
+      month:                 # Month of the year the job should run ( 1-12, *, */2, etc )
+      name:                  # Description of a crontab entry or, if env is set, the name of environment variable. Required if state=absent. Note that if name is not set and state=present, then a new crontab
+                               entry will always be created, regardless of existing ones.
+      reboot:                # If the job should be run at reboot. This option is deprecated. Users should use special_time.
+      special_time:          # Special time specification nickname.
+      state:                 # Whether to ensure the job or environment variable is present or absent.
+      user:                  # The specific user whose crontab should be modified.
+      weekday:               # Day of the week that the job should run ( 0-6 for Sunday-Saturday, *, etc )
+</pre>
+<br/><hr/><h3><a href="https://docs.ansible.com/ansible/latest/modules/debug_module.html">debug</a></h3><pre>
+- name: Print statements during execution
+  debug:
+      msg:                   # The customized message that is printed. If omitted, prints a generic message.
+      var:                   # A variable name to debug.  Mutually exclusive with the 'msg' option.
+      verbosity:             # A number that controls when the debug is run, if you set to 3 it will only run debug when -vvv or above
+</pre>
+<br/><hr/><h3><a href="https://docs.ansible.com/ansible/latest/modules/file_module.html">file</a></h3><pre>
+- name: Sets attributes of files
+  file:
+      access_time:           # This parameter indicates the time the file's access time should be set to Should be `preserve' when no modification is required, `YYYYMMDDHHMM.SS' when using default time format, or
+                               `now' Default is None meaning that `preserve' is the default for `state=[file,directory,link,hard]' and `now' is default for `state=touch'
+      access_time_format:    # When used with `access_time', indicates the time format that must be used. Based on default Python format (see time.strftime doc)
+      attributes:            # Attributes the file or directory should have. To get supported flags look at the man page for `chattr' on the target system. This string should contain the attributes in the same
+                               order as the one displayed by `lsattr'. `=' operator is assumed as default, otherwise `+' or `-' operators need to be included in the string.
+      follow:                # This flag indicates that filesystem links, if they exist, should be followed. Previous to Ansible 2.5, this was `no' by default.
+      force:                 # force the creation of the symlinks in two cases: the source file does not exist (but will appear later); the destination exists and is a file (so, we need to unlink the "path" file
+                               and create symlink to the "src" file in place of it).
+      group:                 # Name of the group that should own the file/directory, as would be fed to `chown'.
+      mode:                  # Mode the file or directory should be. For those used to `/usr/bin/chmod' remember that modes are actually octal numbers. You must either add a leading zero so that Ansible's YAML
+                               parser knows it is an octal number (like `0644' or `01777') or quote it (like `'644'' or `'1777'') so Ansible receives a string and can do its own
+                               conversion from string into number.  Giving Ansible a number without following one of these rules will end up with a decimal number which will have
+                               unexpected results. As of version 1.8, the mode may be specified as a symbolic mode (for example, `u+rwx' or `u=rw,g=r,o=r').
+      modification_time:     # This parameter indicates the time the file's modification time should be set to Should be `preserve' when no modification is required, `YYYYMMDDHHMM.SS' when using default time
+                               format, or `now' Default is None meaning that `preserve' is the default for `state=[file,directory,link,hard]' and `now' is default for `state=touch'
+      modification_time_format:   # When used with `modification_time', indicates the time format that must be used. Based on default Python format (see time.strftime doc)
+      owner:                 # Name of the user that should own the file/directory, as would be fed to `chown'.
+      path:                  # (required) Path to the file being managed.
+      recurse:               # recursively set the specified file attributes (applies only to directories)
+      selevel:               # Level part of the SELinux file context. This is the MLS/MCS attribute, sometimes known as the `range'. `_default' feature works as for `seuser'.
+      serole:                # Role part of SELinux file context, `_default' feature works as for `seuser'.
+      setype:                # Type part of SELinux file context, `_default' feature works as for `seuser'.
+      seuser:                # User part of SELinux file context. Will default to system policy, if applicable. If set to `_default', it will use the `user' portion of the policy if available.
+      src:                   # path of the file to link to (applies only to `state=link' and `state=hard'). Will accept absolute, relative and nonexisting paths. Relative paths are relative to the file being
+                               created (`path') which is how the UNIX command `ln -s SRC DEST' treats relative paths.
+      state:                 # If `directory', all intermediate subdirectories will be created if they do not exist. Since Ansible 1.7 they will be created with the supplied permissions. If `file', the file will
+                               NOT be created if it does not exist; see the `touch' value or the [copy] or [template] module if you want that behavior.  If `link', the symbolic link
+                               will be created or changed. Use `hard' for hardlinks. If `absent', directories will be recursively deleted, and files or symlinks will be unlinked.
+                               Note that `absent' will not cause `file' to fail if the `path' does not exist as the state did not change. If `touch' (new in 1.4), an empty file will
+                               be created if the `path' does not exist, while an existing file or directory will receive updated file access and modification times (similar to the
+                               way `touch` works from the command line).
+      unsafe_writes:         # By default this module uses atomic operations to prevent data corruption or inconsistent reads from the target files, but sometimes systems are configured or just broken in ways
+                               that prevent this. One example is docker mounted files, which cannot be updated atomically from inside the container and can only be written in an
+                               unsafe manner. This option allows Ansible to fall back to unsafe methods of updating files when atomic operations fail (however, it doesn't force
+                               Ansible to perform unsafe writes). IMPORTANT! Unsafe writes are subject to race conditions and can lead to data corruption.
+</pre>
+<br/><hr/><h3><a href="https://docs.ansible.com/ansible/latest/modules/group_module.html">group</a></h3><pre>
+- name: Add or remove groups
+  group:
+      gid:                   # Optional `GID' to set for the group.
+      local:                 # Forces the use of "local" command alternatives on platforms that implement it. This is useful in environments that use centralized authentification when you want to manipulate the
+                               local groups. I.E. it uses `lgroupadd` instead of `useradd`. This requires that these commands exist on the targeted host, otherwise it will be a
+                               fatal error.
+      name:                  # (required) Name of the group to manage.
+      state:                 # Whether the group should be present or not on the remote host.
+      system:                # If `yes', indicates that the group created is a system group.
+</pre>
+<br/><hr/><h3><a href="https://docs.ansible.com/ansible/latest/modules/lineinfile_module.html">lineinfile</a></h3><pre>
+- name: Manage lines in text files
+  lineinfile:
+      attributes:            # Attributes the file or directory should have. To get supported flags look at the man page for `chattr' on the target system. This string should contain the attributes in the same
+                               order as the one displayed by `lsattr'. `=' operator is assumed as default, otherwise `+' or `-' operators need to be included in the string.
+      backrefs:              # Used with `state=present'. If set, `line' can contain backreferences (both positional and named) that will get populated if the `regexp' matches. This flag changes the operation of
+                               the module slightly; `insertbefore' and `insertafter' will be ignored, and if the `regexp' doesn't match anywhere in the file, the file will be left
+                               unchanged. If the `regexp' does match, the last matching line will be replaced by the expanded line parameter.
+      backup:                # Create a backup file including the timestamp information so you can get the original file back if you somehow clobbered it incorrectly.
+      create:                # Used with `state=present'. If specified, the file will be created if it does not already exist. By default it will fail if the file is missing.
+      firstmatch:            # Used with `insertafter' or `insertbefore'. If set, `insertafter' and `inserbefore' find a first line has regular expression matches.
+      group:                 # Name of the group that should own the file/directory, as would be fed to `chown'.
+      insertafter:           # Used with `state=present'. If specified, the line will be inserted after the last match of specified regular expression. If the first match is required, use(firstmatch=yes). A
+                               special value is available; `EOF' for inserting the line at the end of the file. If specified regular expression has no matches, EOF will be used
+                               instead. If regular expressions are passed to both `regexp' and `insertafter', `insertafter' is only honored if no match for `regexp' is found. May
+                               not be used with `backrefs'.
+      insertbefore:          # Used with `state=present'. If specified, the line will be inserted before the last match of specified regular expression. If the first match is required, use(firstmatch=yes). A
+                               value is available; `BOF' for inserting the line at the beginning of the file. If specified regular expression has no matches, the line will be
+                               inserted at the end of the file. If regular expressions are passed to both `regexp' and `insertbefore', `insertbefore' is only honored if no match for
+                               `regexp' is found. May not be used with `backrefs'.
+      line:                  # Required for `state=present'. The line to insert/replace into the file. If `backrefs' is set, may contain backreferences that will get expanded with the `regexp' capture groups if
+                               the regexp matches.
+      mode:                  # Mode the file or directory should be. For those used to `/usr/bin/chmod' remember that modes are actually octal numbers. You must either add a leading zero so that Ansible's YAML
+                               parser knows it is an octal number (like `0644' or `01777') or quote it (like `'644'' or `'1777'') so Ansible receives a string and can do its own
+                               conversion from string into number.  Giving Ansible a number without following one of these rules will end up with a decimal number which will have
+                               unexpected results. As of version 1.8, the mode may be specified as a symbolic mode (for example, `u+rwx' or `u=rw,g=r,o=r').
+      others:                # All arguments accepted by the [file] module also work here.
+      owner:                 # Name of the user that should own the file/directory, as would be fed to `chown'.
+      path:                  # (required) The file to modify. Before 2.3 this option was only usable as `dest', `destfile' and `name'.
+      regexp:                # The regular expression to look for in every line of the file. For `state=present', the pattern to replace if found. Only the last line found will be replaced. For `state=absent',
+                               the pattern of the line(s) to remove. If the regular expression is not matched, the line will be added to the file in keeping with`insertbefore` or
+                               `insertafter` settings. When modifying a line the regexp should typically match both the initial state of the line as well as its state after
+                               replacement by `line' to ensure idempotence. Uses Python regular expressions. See http://docs.python.org/2/library/re.html.
+      selevel:               # Level part of the SELinux file context. This is the MLS/MCS attribute, sometimes known as the `range'. `_default' feature works as for `seuser'.
+      serole:                # Role part of SELinux file context, `_default' feature works as for `seuser'.
+      setype:                # Type part of SELinux file context, `_default' feature works as for `seuser'.
+      seuser:                # User part of SELinux file context. Will default to system policy, if applicable. If set to `_default', it will use the `user' portion of the policy if available.
+      state:                 # Whether the line should be there or not.
+      unsafe_writes:         # By default this module uses atomic operations to prevent data corruption or inconsistent reads from the target files, but sometimes systems are configured or just broken in ways
+                               that prevent this. One example is docker mounted files, which cannot be updated atomically from inside the container and can only be written in an
+                               unsafe manner. This option allows Ansible to fall back to unsafe methods of updating files when atomic operations fail (however, it doesn't force
+                               Ansible to perform unsafe writes). IMPORTANT! Unsafe writes are subject to race conditions and can lead to data corruption.
+      validate:              # The validation command to run before copying into place. The path to the file to validate is passed in via '%s' which must be present as in the example below. The command is passed
+                               securely so shell features like expansion and pipes won't work.
+</pre>
+<br/><hr/><h3><a href="https://docs.ansible.com/ansible/latest/modules/mount_module.html">mount</a></h3><pre>
+- name: Control active and configured mount points
+  mount:
+      backup:                # Create a backup file including the timestamp information so you can get the original file back if you somehow clobbered it incorrectly.
+      boot:                  # Determines if the filesystem should be mounted on boot. Only applies to Solaris systems.
+      dump:                  # Dump (see fstab(5)). Note that if set to `null' and `state' set to `present', it will cease to work and duplicate entries will be made with subsequent runs. Has no effect on Solaris
+                               systems.
+      fstab:                 # File to use instead of `/etc/fstab'. You shouldn't use this option unless you really know what you are doing. This might be useful if you need to configure mountpoints in a chroot
+                               environment.  OpenBSD does not allow specifying alternate fstab files with mount so do not use this on OpenBSD with any state that operates on the
+                               live filesystem.
+      fstype:                # Filesystem type. Required when `state' is `present' or `mounted'.
+      opts:                  # Mount options (see fstab(5), or vfstab(4) on Solaris).
+      passno:                # Passno (see fstab(5)). Note that if set to `null' and `state' set to `present', it will cease to work and duplicate entries will be made with subsequent runs. Deprecated on Solaris
+                               systems.
+      path:                  # (required) Path to the mount point (e.g. `/mnt/files'). Before 2.3 this option was only usable as `dest', `destfile' and `name'.
+      src:                   # Device to be mounted on `path'. Required when `state' set to `present' or `mounted'.
+      state:                 # (required) If `mounted', the device will be actively mounted and appropriately configured in `fstab'. If the mount point is not present, the mount point will be created. If
+                               `unmounted', the device will be unmounted without changing `fstab'. `present' only specifies that the device is to be configured in `fstab' and does
+                               not trigger or require a mount. `absent' specifies that the device mount's entry will be removed from `fstab' and will also unmount the device and
+                               remove the mount point.
+</pre>
+<br/><hr/><h3><a href="https://docs.ansible.com/ansible/latest/modules/package_module.html">package</a></h3><pre>
+- name: Generic OS package manager
+  package:
+      name:                  # (required) Package name, or package specifier with version, like `name-1.0'. Be aware that packages are not always named the same and this module will not 'translate' them per
+                               distro.
+      state:                 # (required) Whether to install (`present'), or remove (`absent') a package. Other states depend on the underlying package module, i.e `latest'.
+      use:                   # The required package manager module to use (yum, apt, etc). The default 'auto' will use existing facts or try to autodetect it. You should only use this field if the automatic
+                               selection is not working for some reason.
+</pre>
+<br/><hr/><h3><a href="https://docs.ansible.com/ansible/latest/modules/pip_module.html">pip</a></h3><pre>
+- name: Manages Python library dependencies
+  pip:
+      chdir:                 # cd into this directory before running the command
+      editable:              # Pass the editable flag.
+      executable:            # The explicit executable or a pathname to the executable to be used to run pip for a specific version of Python installed in the system. For example `pip-3.3', if there are both
+                               Python 2.7 and 3.3 installations in the system and you want to run pip for the Python 3.3 installation. It cannot be specified together with the
+                               'virtualenv' parameter (added in 2.1). By default, it will take the appropriate version for the python interpreter use by ansible, e.g. pip3 on python
+                               3, and pip2 or pip on python 2.
+      extra_args:            # Extra arguments passed to pip.
+      name:                  # The name of a Python library to install or the url(bzr+,hg+,git+,svn+) of the remote package. This can be a list (since 2.2) and contain version specifiers (since 2.7).
+      requirements:          # The path to a pip requirements file, which should be local to the remote system. File can be specified as a relative path if using the chdir option.
+      state:                 # The state of module The 'forcereinstall' option is only available in Ansible 2.1 and above.
+      umask:                 # The system umask to apply before installing the pip package. This is useful, for example, when installing on systems that have a very restrictive umask by default (e.g., "0077") and
+                               you want to pip install packages which are to be used by all users. Note that this requires you to specify desired umask mode as an octal string,
+                               (e.g., "0022").
+      version:               # The version number to install of the Python library specified in the `name' parameter.
+      virtualenv:            # An optional path to a `virtualenv' directory to install into. It cannot be specified together with the 'executable' parameter (added in 2.1). If the virtualenv does not exist, it
+                               will be created before installing packages. The optional virtualenv_site_packages, virtualenv_command, and virtualenv_python options affect the
+                               creation of the virtualenv.
+      virtualenv_command:    # The command or a pathname to the command to create the virtual environment with. For example `pyvenv', `virtualenv', `virtualenv2', `~/bin/virtualenv', `/usr/local/bin/virtualenv'.
+      virtualenv_python:     # The Python executable used for creating the virtual environment. For example `python3.5', `python2.7'. When not specified, the Python version used to run the ansible module is used.
+                               This parameter should not be used when `virtualenv_command' is using `pyvenv' or the `-m venv' module.
+      virtualenv_site_packages:   # Whether the virtual environment will inherit packages from the global site-packages directory.  Note that if this setting is changed on an already existing virtual environment it
+                               will not have any effect, the environment must be deleted and newly created.
+</pre>
+<br/><hr/><h3><a href="https://docs.ansible.com/ansible/latest/modules/script_module.html">script</a></h3><pre>
+- name: Runs a local script on a remote node after transferring it
+  script:
+      chdir:                 # Change into this directory on the remote node before running the script.
+      creates:               # A filename on the remote node, when it already exists, this step will *not* be run.
+      decrypt:               # This option controls the autodecryption of source files using vault.
+      executable:            # Name or path of a executable to invoke the script with.
+      free_form:             # (required) Path to the local script file followed by optional arguments. There is no parameter actually named 'free form', see the examples!
+      removes:               # A filename on the remote node, when it does not exist, this step will *not* be run.
+</pre>
+<br/><hr/><h3><a href="https://docs.ansible.com/ansible/latest/modules/service_module.html">service</a></h3><pre>
+- name: Manage services
+  service:
+      arguments:             # Additional arguments provided on the command line
+      enabled:               # Whether the service should start on boot. *At least one of state and enabled are required.*
+      name:                  # (required) Name of the service.
+      pattern:               # If the service does not respond to the status command, name a substring to look for as would be found in the output of the `ps' command as a stand-in for a status result.  If the
+                               string is found, the service will be assumed to be started.
+      runlevel:              # For OpenRC init scripts (ex: Gentoo) only.  The runlevel that this service belongs to.
+      sleep:                 # If the service is being `restarted' then sleep this many seconds between the stop and start command. This helps to workaround badly behaving init scripts that exit immediately after
+                               signaling a process to stop.
+      state:                 # `started'/`stopped' are idempotent actions that will not run commands unless necessary.  `restarted' will always bounce the service.  `reloaded' will always reload. *At least one of
+                               state and enabled are required.* Note that reloaded will start the service if it is not already started, even if your chosen init system wouldn't
+                               normally.
+      use:                   # The service module actually uses system specific modules, normally through auto detection, this setting can force a specific module. Normally it uses the value of the
+                               'ansible_service_mgr' fact and falls back to the old 'service' module when none matching is found.
+</pre>
+<br/><hr/><h3><a href="https://docs.ansible.com/ansible/latest/modules/shell_module.html">shell</a></h3><pre>
+- name: Execute commands in nodes.
+  shell:
+      chdir:                 # cd into this directory before running the command
+      creates:               # a filename, when it already exists, this step will *not* be run.
+      executable:            # change the shell used to execute the command. Should be an absolute path to the executable.
+      free_form:             # (required) The shell module takes a free form command to run, as a string.  There's not an actual option named "free form".  See the examples!
+      removes:               # a filename, when it does not exist, this step will *not* be run.
+      stdin:                 # Set the stdin of the command directly to the specified value.
+      warn:                  # if command warnings are on in ansible.cfg, do not warn about this particular line if set to no/false.
+</pre>
+<br/><hr/><h3><a href="https://docs.ansible.com/ansible/latest/modules/stat_module.html">stat</a></h3><pre>
+- name: Retrieve file or file system status
+  stat:
+      checksum_algorithm:    # Algorithm to determine checksum of file. Will throw an error if the host is unable to use specified algorithm. The remote host has to support the hashing method specified, `md5' can
+                               be unavailable if the host is FIPS-140 compliant.
+      follow:                # Whether to follow symlinks.
+      get_attributes:        # Get file attributes using lsattr tool if present.
+      get_checksum:          # Whether to return a checksum of the file (default sha1).
+      get_md5:               # Whether to return the md5 sum of the file. Will return None if not a regular file or if we're unable to use md5 (Common for FIPS-140 compliant systems). The default of this option
+                               changed from `yes' to `no' in Ansible 2.5 and will be removed altogether in Ansible 2.9. Use `get_checksum=true' with `checksum_algorithm=md5' to
+                               return an md5 hash under the `checksum' return value.
+      get_mime:              # Use file magic and return data about the nature of the file. this uses the 'file' utility found on most Linux/Unix systems. This will add both `mime_type` and 'charset' fields to
+                               the return, if possible. In 2.3 this option changed from 'mime' to 'get_mime' and the default changed to 'Yes'.
+      path:                  # (required) The full path of the file/object to get the facts of.
+</pre>
+<br/><hr/><h3><a href="https://docs.ansible.com/ansible/latest/modules/template_module.html">template</a></h3><pre>
+- name: Templates a file out to a remote server
+  template:
+      attributes:            # Attributes the file or directory should have. To get supported flags look at the man page for `chattr' on the target system. This string should contain the attributes in the same
+                               order as the one displayed by `lsattr'. `=' operator is assumed as default, otherwise `+' or `-' operators need to be included in the string.
+      backup:                # Create a backup file including the timestamp information so you can get the original file back if you somehow clobbered it incorrectly.
+      block_end_string:      # The string marking the end of a block.
+      block_start_string:    # The string marking the beginning of a block.
+      dest:                  # (required) Location to render the template to on the remote machine.
+      follow:                # This flag indicates that filesystem links in the destination, if they exist, should be followed. Previous to Ansible 2.4, this was hardcoded as `yes'.
+      force:                 # the default is `yes', which will replace the remote file when contents are different than the source.  If `no', the file will only be transferred if the destination does not exist.
+      group:                 # Name of the group that should own the file/directory, as would be fed to `chown'.
+      lstrip_blocks:         # If this is set to True leading spaces and tabs are stripped from the start of a line to a block. Setting this option to True requires Jinja2 version >=2.7.
+      mode:                  # Mode the file or directory should be. For those used to `/usr/bin/chmod' remember that modes are actually octal numbers.  You must either add a leading zero so that Ansible's YAML
+                               parser knows it is an octal number (like `0644' or `01777') or quote it (like `'644'' or `'1777'') so Ansible receives a string and can do its own
+                               conversion from string into number.  Giving Ansible a number without following one of these rules will end up with a decimal number which will have
+                               unexpected results.  As of version 1.8, the mode may be specified as a symbolic mode (for example, `u+rwx' or `u=rw,g=r,o=r').  As of version 2.6, the
+                               mode may also be the special string `preserve'.  `preserve' means that the file will be given the same permissions as the source file.
+      newline_sequence:      # Specify the newline sequence to use for templating files.
+      output_encoding:       # Overrides the encoding used to write the template file defined by `dest'. It defaults to `'utf-8'', but any encoding supported by python can be used. The source template file must
+                               always be encoded using `'utf-8'', for homogeneity.
+      owner:                 # Name of the user that should own the file/directory, as would be fed to `chown'.
+      selevel:               # Level part of the SELinux file context. This is the MLS/MCS attribute, sometimes known as the `range'. `_default' feature works as for `seuser'.
+      serole:                # Role part of SELinux file context, `_default' feature works as for `seuser'.
+      setype:                # Type part of SELinux file context, `_default' feature works as for `seuser'.
+      seuser:                # User part of SELinux file context. Will default to system policy, if applicable. If set to `_default', it will use the `user' portion of the policy if available.
+      src:                   # (required) Path of a Jinja2 formatted template on the Ansible controller. This can be a relative or absolute path.
+      trim_blocks:           # If this is set to True the first newline after a block is removed (block, not variable tag!).
+      unsafe_writes:         # By default this module uses atomic operations to prevent data corruption or inconsistent reads from the target files, but sometimes systems are configured or just broken in ways
+                               that prevent this. One example is docker mounted files, which cannot be updated atomically from inside the container and can only be written in an
+                               unsafe manner. This option allows Ansible to fall back to unsafe methods of updating files when atomic operations fail (however, it doesn't force
+                               Ansible to perform unsafe writes). IMPORTANT! Unsafe writes are subject to race conditions and can lead to data corruption.
+      validate:              # The validation command to run before copying into place. The path to the file to validate is passed in via '%s' which must be present as in the example below. The command is passed
+                               securely so shell features like expansion and pipes won't work.
+      variable_end_string:   # The string marking the end of a print statement.
+      variable_start_string:   # The string marking the beginning of a print statement.
+</pre>
+<br/><hr/><h3><a href="https://docs.ansible.com/ansible/latest/modules/unarchive_module.html">unarchive</a></h3><pre>
+- name: Unpacks an archive after (optionally) copying it from the local machine.
+  unarchive:
+      attributes:            # Attributes the file or directory should have. To get supported flags look at the man page for `chattr' on the target system. This string should contain the attributes in the same
+                               order as the one displayed by `lsattr'. `=' operator is assumed as default, otherwise `+' or `-' operators need to be included in the string.
+      copy:                  # If true, the file is copied from local 'master' to the target machine, otherwise, the plugin will look for src archive at the target machine. This option has been deprecated in
+                               favor of `remote_src'. This option is mutually exclusive with `remote_src'.
+      creates:               # If the specified absolute path (file or directory) already exists, this step will *not* be run.
+      decrypt:               # This option controls the autodecryption of source files using vault.
+      dest:                  # (required) Remote absolute path where the archive should be unpacked.
+      exclude:               # List the directory and file entries that you would like to exclude from the unarchive action.
+      extra_opts:            # Specify additional options by passing in an array.
+      group:                 # Name of the group that should own the file/directory, as would be fed to `chown'.
+      keep_newer:            # Do not replace existing files that are newer than files from the archive.
+      list_files:            # If set to True, return the list of files that are contained in the tarball.
+      mode:                  # Mode the file or directory should be. For those used to `/usr/bin/chmod' remember that modes are actually octal numbers. You must either add a leading zero so that Ansible's YAML
+                               parser knows it is an octal number (like `0644' or `01777') or quote it (like `'644'' or `'1777'') so Ansible receives a string and can do its own
+                               conversion from string into number.  Giving Ansible a number without following one of these rules will end up with a decimal number which will have
+                               unexpected results. As of version 1.8, the mode may be specified as a symbolic mode (for example, `u+rwx' or `u=rw,g=r,o=r').
+      owner:                 # Name of the user that should own the file/directory, as would be fed to `chown'.
+      remote_src:            # Set to `yes' to indicate the archived file is already on the remote system and not local to the Ansible controller. This option is mutually exclusive with `copy'.
+      selevel:               # Level part of the SELinux file context. This is the MLS/MCS attribute, sometimes known as the `range'. `_default' feature works as for `seuser'.
+      serole:                # Role part of SELinux file context, `_default' feature works as for `seuser'.
+      setype:                # Type part of SELinux file context, `_default' feature works as for `seuser'.
+      seuser:                # User part of SELinux file context. Will default to system policy, if applicable. If set to `_default', it will use the `user' portion of the policy if available.
+      src:                   # (required) If `remote_src=no' (default), local path to archive file to copy to the target server; can be absolute or relative. If `remote_src=yes', path on the target server to
+                               existing archive file to unpack. If `remote_src=yes' and `src' contains `://', the remote machine will download the file from the URL first.
+                               (version_added 2.0). This is only for simple cases, for full download support use the [get_url] module.
+      unsafe_writes:         # By default this module uses atomic operations to prevent data corruption or inconsistent reads from the target files, but sometimes systems are configured or just broken in ways
+                               that prevent this. One example is docker mounted files, which cannot be updated atomically from inside the container and can only be written in an
+                               unsafe manner. This option allows Ansible to fall back to unsafe methods of updating files when atomic operations fail (however, it doesn't force
+                               Ansible to perform unsafe writes). IMPORTANT! Unsafe writes are subject to race conditions and can lead to data corruption.
+      validate_certs:        # This only applies if using a https URL as the source of the file. This should only set to `no' used on personally controlled sites using self-signed certificate. Prior to 2.2 the
+                               code worked as if this was set to `yes'.
+</pre>
+<br/><hr/><h3><a href="https://docs.ansible.com/ansible/latest/modules/user_module.html">user</a></h3><pre>
+- name: Manage user accounts
+  user:
+      append:                # If `yes', add the user to the groups specified in `groups'. If `no', user will only be added to the groups specified in `groups', removing them from all other groups.
+      comment:               # Optionally sets the description (aka `GECOS') of user account.
+      create_home:           # Unless set to `no', a home directory will be made for the user when the account is created or if the home directory does not exist. Changed from `createhome' to `create_home' in
+                               version 2.5.
+      expires:               # An expiry time for the user in epoch, it will be ignored on platforms that do not support this. Currently supported on GNU/Linux, FreeBSD, and DragonFlyBSD. Since version 2.6 you
+                               can remove the expiry time specify a negative value. Currently supported on GNU/Linux and FreeBSD.
+      force:                 # This only affects `state=absent', it forces removal of the user and associated directories on supported platforms. The behavior is the same as `userdel --force', check the man page
+                               for `userdel' on your system for details and support.
+      generate_ssh_key:      # Whether to generate a SSH key for the user in question. This will *not* overwrite an existing SSH key.
+      group:                 # Optionally sets the user's primary group (takes a group name).
+      groups:                # List of groups user will be added to. When set to an empty string `''', `null', or `~', the user is removed from all groups except the primary group. (`~' means `null' in YAML)
+                               Before version 2.3, the only input format allowed was a comma separated string. Now this parameter accepts a list as well as a comma separated string.
+      hidden:                # macOS only, optionally hide the user from the login window and system preferences. The default will be 'True' if the `system' option is used.
+      home:                  # Optionally set the user's home directory.
+      local:                 # Forces the use of "local" command alternatives on platforms that implement it. This is useful in environments that use centralized authentification when you want to manipulate the
+                               local users. I.E. it uses `luseradd` instead of `useradd`. This requires that these commands exist on the targeted host, otherwise it will be a fatal
+                               error.
+      login_class:           # Optionally sets the user's login class, a feature of most BSD OSs.
+      move_home:             # If set to `yes' when used with `home=', attempt to move the user's old home directory to the specified directory if it isn't there already and the old home exists.
+      name:                  # (required) Name of the user to create, remove or modify.
+      non_unique:            # Optionally when used with the -u option, this option allows to change the user ID to a non-unique value.
+      password:              # Optionally set the user's password to this crypted value. On macOS systems, this value has to be cleartext. Beware of security issues. To create a disabled account or Linux systems,
+                               set this to `'!'' or `'*''. See https://docs.ansible.com/ansible/faq.html#how-do-i-generate-crypted-passwords-for-the-user-module for details on
+                               various ways to generate these password values.
+      password_lock:         # Lock the password (usermod -L, pw lock, usermod -C). BUT implementation differs on different platforms, this option does not always mean the user cannot login via other methods.
+                               This option does not disable the user, only lock the password. Do not change the password in the same task. Currently supported on Linux, FreeBSD,
+                               DragonFlyBSD, NetBSD, OpenBSD.
+      remove:                # This only affects `state=absent', it attempts to remove directories associated with the user. The behavior is the same as `userdel --remove', check the man page for details and
+                               support.
+      seuser:                # Optionally sets the seuser type (user_u) on selinux enabled systems.
+      shell:                 # Optionally set the user's shell. On macOS, before version 2.5, the default shell for non-system users was /usr/bin/false. Since 2.5, the default shell for non-system users on macOS
+                               is /bin/bash. On other operating systems, the default shell is determined by the underlying tool being used. See Notes for details.
+      skeleton:              # Optionally set a home skeleton directory. Requires create_home option!
+      ssh_key_bits:          # Optionally specify number of bits in SSH key to create.
+      ssh_key_comment:       # Optionally define the comment for the SSH key.
+      ssh_key_file:          # Optionally specify the SSH key filename. If this is a relative filename then it will be relative to the user's home directory.
+      ssh_key_passphrase:    # Set a passphrase for the SSH key.  If no passphrase is provided, the SSH key will default to having no passphrase.
+      ssh_key_type:          # Optionally specify the type of SSH key to generate. Available SSH key types will depend on implementation present on target host.
+      state:                 # Whether the account should exist or not, taking action if the state is different from what is stated.
+      system:                # When creating an account `state=present', setting this to `yes' makes the user a system account. This setting cannot be changed on existing users.
+      uid:                   # Optionally sets the `UID' of the user.
+      update_password:       # `always' will update passwords if they differ.  `on_create' will only set the password for newly created users.
+</pre>
+<br/><hr/><h3><a href="https://docs.ansible.com/ansible/latest/modules/yum_module.html">yum</a></h3><pre>
+- name: Manages packages with the `yum' package manager
+  yum:
+      allow_downgrade:       # Specify if the named package and version is allowed to downgrade a maybe already installed higher version of that package. Note that setting allow_downgrade=True can make this
+                               module behave in a non-idempotent way. The task could end up with a set of packages that does not match the complete list of specified packages to
+                               install (because dependencies between the downgraded package and others can cause changes to the packages which were in the earlier transaction).
+      autoremove:            # If `yes', removes all "leaf" packages from the system that were originally installed as dependencies of user-installed packages but which are no longer required by any such package.
+                               Should be used alone or when state is `absent' NOTE: This feature requires yum >= 3.4.3 (RHEL/CentOS 7+)
+      bugfix:                # If set to `yes', and `state=latest' then only installs updates that have been marked bugfix related.
+      conf_file:             # The remote yum configuration file to use for the transaction.
+      disable_excludes:      # Disable the excludes defined in YUM config files. If set to `all', disables all excludes. If set to `main', disable excludes defined in [main] in yum.conf. If set to `repoid',
+                               disable excludes defined for given repo id.
+      disable_gpg_check:     # Whether to disable the GPG checking of signatures of packages being installed. Has an effect only if state is `present' or `latest'.
+      disable_plugin:        # `Plugin' name to disable for the install/update operation. The disabled plugins will not persist beyond the transaction.
+      disablerepo:           # `Repoid' of repositories to disable for the install/update operation. These repos will not persist beyond the transaction. When specifying multiple repos, separate them with a
+                               `","'. As of Ansible 2.7, this can alternatively be a list instead of `","' separated string
+      download_only:         # Only download the packages, do not install them.
+      enable_plugin:         # `Plugin' name to enable for the install/update operation. The enabled plugin will not persist beyond the transaction.
+      enablerepo:            # `Repoid' of repositories to enable for the install/update operation. These repos will not persist beyond the transaction. When specifying multiple repos, separate them with a `","'.
+                               As of Ansible 2.7, this can alternatively be a list instead of `","' separated string
+      exclude:               # Package name(s) to exclude when state=present, or latest
+      installroot:           # Specifies an alternative installroot, relative to which all packages will be installed.
+      list:                  # Package name to run the equivalent of yum list <package> against. In addition to listing packages, use can also list the following: `installed', `updates', `available' and `repos'.
+      name:                  # A package name or package specifier with version, like `name-1.0'. If a previous version is specified, the task also needs to turn `allow_downgrade' on. See the `allow_downgrade'
+                               documentation for caveats with downgrading packages. When using state=latest, this can be `'*'' which means run `yum -y update'. You can also pass a
+                               url or a local path to a rpm file (using state=present). To operate on several packages this can accept a comma separated string of packages or (as of
+                               2.0) a list of packages.
+      releasever:            # Specifies an alternative release from which all packages will be installed.
+      security:              # If set to `yes', and `state=latest' then only installs updates that have been marked security related.
+      skip_broken:           # Skip packages with broken dependencies(devsolve) and are causing problems.
+      state:                 # Whether to install (`present' or `installed', `latest'), or remove (`absent' or `removed') a package. `present' and `installed' will simply ensure that a desired package is
+                               installed. `latest' will update the specified package if it's not of the latest available version. `absent' and `removed' will remove the specified
+                               package. Default is `None', however in effect the default action is `present' unless the `autoremove' option is¬ enabled for this module, then
+                               `absent' is inferred.
+      update_cache:          # Force yum to check if cache is out of date and redownload if needed. Has an effect only if state is `present' or `latest'.
+      update_only:           # When using latest, only update installed packages. Do not install packages. Has an effect only if state is `latest'
+      use_backend:           # This module supports `yum' (as it always has), this is known as `yum3'/`YUM3'/`yum-deprecated' by upstream yum developers. As of Ansible 2.7+, this module also supports `YUM4',
+                               which is the "new yum" and it has an `dnf' backend. By default, this module will select the backend based on the `ansible_pkg_mgr' fact.
+      validate_certs:        # This only applies if using a https url as the source of the rpm. e.g. for localinstall. If set to `no', the SSL certificates will not be validated. This should only set to `no' used
+                               on personally controlled sites using self-signed certificates as it avoids verifying the source site. Prior to 2.1 the code worked as if this was set
+                               to `yes'.
+</pre>
+</html>
