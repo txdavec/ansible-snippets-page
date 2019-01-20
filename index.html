@@ -1,5 +1,37 @@
+<!DOCTYPE html>
 <html>
-<br/><hr/><h3><a href="https://docs.ansible.com/ansible/latest/modules/apt_module.html">apt</a></h3><pre>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+.accordion {
+  background-color: #eee;
+  color: #444;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+  transition: 0.4s;
+}
+
+.active, .accordion:hover {
+  background-color: #ccc; 
+}
+
+.panel {
+  padding: 0 18px;
+  display: none;
+  background-color: white;
+  overflow: hidden;
+}
+</style>
+</head>
+<body>
+
+<button class="accordion">apt</button>
+<div class="panel"><p><a target="_blank" href="https://docs.ansible.com/ansible/latest/modules/apt_module.html">apt</a><pre>
 - name: Manages apt-packages
   apt:
       allow_unauthenticated:   # Ignore if packages cannot be authenticated. This is useful for bootstrapping environments that manage their own apt-key setup. `allow_unauthenticated' is only supported with state:
@@ -26,8 +58,9 @@
       update_cache:          # Run the equivalent of `apt-get update' before the operation. Can be run as part of the package installation or as a separate step.
       upgrade:               # If yes or safe, performs an aptitude safe-upgrade. If full, performs an aptitude full-upgrade. If dist, performs an apt-get dist-upgrade. Note: This does not upgrade a specific
                                package, use state=latest for that. Note: Since 2.4, apt-get is used as a fall-back if aptitude is not present.
-</pre>
-<br/><hr/><h3><a href="https://docs.ansible.com/ansible/latest/modules/blockinfile_module.html">blockinfile</a></h3><pre>
+</pre></p></div>
+<button class="accordion">blockinfile</button>
+<div class="panel"><p><a target="_blank" href="https://docs.ansible.com/ansible/latest/modules/blockinfile_module.html">blockinfile</a><pre>
 - name: Insert/update/remove a text block surrounded by marker lines
   blockinfile:
       attributes:            # Attributes the file or directory should have. To get supported flags look at the man page for `chattr' on the target system. This string should contain the attributes in the same
@@ -60,8 +93,9 @@
                                Ansible to perform unsafe writes). IMPORTANT! Unsafe writes are subject to race conditions and can lead to data corruption.
       validate:              # The validation command to run before copying into place. The path to the file to validate is passed in via '%s' which must be present as in the example below. The command is passed
                                securely so shell features like expansion and pipes won't work.
-</pre>
-<br/><hr/><h3><a href="https://docs.ansible.com/ansible/latest/modules/command_module.html">command</a></h3><pre>
+</pre></p></div>
+<button class="accordion">command</button>
+<div class="panel"><p><a target="_blank" href="https://docs.ansible.com/ansible/latest/modules/command_module.html">command</a><pre>
 - name: Executes a command on a remote node
   command:
       argv:                  # Allows the user to provide the command as a list vs. a string.  Only the string or the list form can be provided, not both.  One or the other must be provided.
@@ -71,8 +105,9 @@
       removes:               # A filename or (since 2.0) glob pattern. If it already exists, this step *will* be run.
       stdin:                 # Set the stdin of the command directly to the specified value.
       warn:                  # If command_warnings are on in ansible.cfg, do not warn about this particular line if set to `no'.
-</pre>
-<br/><hr/><h3><a href="https://docs.ansible.com/ansible/latest/modules/copy_module.html">copy</a></h3><pre>
+</pre></p></div>
+<button class="accordion">copy</button>
+<div class="panel"><p><a target="_blank" href="https://docs.ansible.com/ansible/latest/modules/copy_module.html">copy</a><pre>
 - name: Copies files to remote locations
   copy:
       attributes:            # Attributes the file or directory should have. To get supported flags look at the man page for `chattr' on the target system. This string should contain the attributes in the same
@@ -112,8 +147,9 @@
                                Ansible to perform unsafe writes). IMPORTANT! Unsafe writes are subject to race conditions and can lead to data corruption.
       validate:              # The validation command to run before copying into place. The path to the file to validate is passed in via '%s' which must be present as in the example below. The command is passed
                                securely so shell features like expansion and pipes won't work.
-</pre>
-<br/><hr/><h3><a href="https://docs.ansible.com/ansible/latest/modules/cron_module.html">cron</a></h3><pre>
+</pre></p></div>
+<button class="accordion">cron</button>
+<div class="panel"><p><a target="_blank" href="https://docs.ansible.com/ansible/latest/modules/cron_module.html">cron</a><pre>
 - name: Manage cron.d and crontab entries
   cron:
       backup:                # If set, create a backup of the crontab before it is modified. The location of the backup is returned in the `backup_file' variable by this module.
@@ -136,15 +172,17 @@
       state:                 # Whether to ensure the job or environment variable is present or absent.
       user:                  # The specific user whose crontab should be modified.
       weekday:               # Day of the week that the job should run ( 0-6 for Sunday-Saturday, *, etc )
-</pre>
-<br/><hr/><h3><a href="https://docs.ansible.com/ansible/latest/modules/debug_module.html">debug</a></h3><pre>
+</pre></p></div>
+<button class="accordion">debug</button>
+<div class="panel"><p><a target="_blank" href="https://docs.ansible.com/ansible/latest/modules/debug_module.html">debug</a><pre>
 - name: Print statements during execution
   debug:
       msg:                   # The customized message that is printed. If omitted, prints a generic message.
       var:                   # A variable name to debug.  Mutually exclusive with the 'msg' option.
       verbosity:             # A number that controls when the debug is run, if you set to 3 it will only run debug when -vvv or above
-</pre>
-<br/><hr/><h3><a href="https://docs.ansible.com/ansible/latest/modules/file_module.html">file</a></h3><pre>
+</pre></p></div>
+<button class="accordion">file</button>
+<div class="panel"><p><a target="_blank" href="https://docs.ansible.com/ansible/latest/modules/file_module.html">file</a><pre>
 - name: Sets attributes of files
   file:
       access_time:           # This parameter indicates the time the file's access time should be set to Should be `preserve' when no modification is required, `YYYYMMDDHHMM.SS' when using default time format, or
@@ -182,8 +220,9 @@
                                that prevent this. One example is docker mounted files, which cannot be updated atomically from inside the container and can only be written in an
                                unsafe manner. This option allows Ansible to fall back to unsafe methods of updating files when atomic operations fail (however, it doesn't force
                                Ansible to perform unsafe writes). IMPORTANT! Unsafe writes are subject to race conditions and can lead to data corruption.
-</pre>
-<br/><hr/><h3><a href="https://docs.ansible.com/ansible/latest/modules/group_module.html">group</a></h3><pre>
+</pre></p></div>
+<button class="accordion">group</button>
+<div class="panel"><p><a target="_blank" href="https://docs.ansible.com/ansible/latest/modules/group_module.html">group</a><pre>
 - name: Add or remove groups
   group:
       gid:                   # Optional `GID' to set for the group.
@@ -193,8 +232,9 @@
       name:                  # (required) Name of the group to manage.
       state:                 # Whether the group should be present or not on the remote host.
       system:                # If `yes', indicates that the group created is a system group.
-</pre>
-<br/><hr/><h3><a href="https://docs.ansible.com/ansible/latest/modules/lineinfile_module.html">lineinfile</a></h3><pre>
+</pre></p></div>
+<button class="accordion">lineinfile</button>
+<div class="panel"><p><a target="_blank" href="https://docs.ansible.com/ansible/latest/modules/lineinfile_module.html">lineinfile</a><pre>
 - name: Manage lines in text files
   lineinfile:
       attributes:            # Attributes the file or directory should have. To get supported flags look at the man page for `chattr' on the target system. This string should contain the attributes in the same
@@ -238,8 +278,9 @@
                                Ansible to perform unsafe writes). IMPORTANT! Unsafe writes are subject to race conditions and can lead to data corruption.
       validate:              # The validation command to run before copying into place. The path to the file to validate is passed in via '%s' which must be present as in the example below. The command is passed
                                securely so shell features like expansion and pipes won't work.
-</pre>
-<br/><hr/><h3><a href="https://docs.ansible.com/ansible/latest/modules/mount_module.html">mount</a></h3><pre>
+</pre></p></div>
+<button class="accordion">mount</button>
+<div class="panel"><p><a target="_blank" href="https://docs.ansible.com/ansible/latest/modules/mount_module.html">mount</a><pre>
 - name: Control active and configured mount points
   mount:
       backup:                # Create a backup file including the timestamp information so you can get the original file back if you somehow clobbered it incorrectly.
@@ -259,8 +300,9 @@
                                `unmounted', the device will be unmounted without changing `fstab'. `present' only specifies that the device is to be configured in `fstab' and does
                                not trigger or require a mount. `absent' specifies that the device mount's entry will be removed from `fstab' and will also unmount the device and
                                remove the mount point.
-</pre>
-<br/><hr/><h3><a href="https://docs.ansible.com/ansible/latest/modules/package_module.html">package</a></h3><pre>
+</pre></p></div>
+<button class="accordion">package</button>
+<div class="panel"><p><a target="_blank" href="https://docs.ansible.com/ansible/latest/modules/package_module.html">package</a><pre>
 - name: Generic OS package manager
   package:
       name:                  # (required) Package name, or package specifier with version, like `name-1.0'. Be aware that packages are not always named the same and this module will not 'translate' them per
@@ -268,8 +310,9 @@
       state:                 # (required) Whether to install (`present'), or remove (`absent') a package. Other states depend on the underlying package module, i.e `latest'.
       use:                   # The required package manager module to use (yum, apt, etc). The default 'auto' will use existing facts or try to autodetect it. You should only use this field if the automatic
                                selection is not working for some reason.
-</pre>
-<br/><hr/><h3><a href="https://docs.ansible.com/ansible/latest/modules/pip_module.html">pip</a></h3><pre>
+</pre></p></div>
+<button class="accordion">pip</button>
+<div class="panel"><p><a target="_blank" href="https://docs.ansible.com/ansible/latest/modules/pip_module.html">pip</a><pre>
 - name: Manages Python library dependencies
   pip:
       chdir:                 # cd into this directory before running the command
@@ -294,8 +337,9 @@
                                This parameter should not be used when `virtualenv_command' is using `pyvenv' or the `-m venv' module.
       virtualenv_site_packages:   # Whether the virtual environment will inherit packages from the global site-packages directory.  Note that if this setting is changed on an already existing virtual environment it
                                will not have any effect, the environment must be deleted and newly created.
-</pre>
-<br/><hr/><h3><a href="https://docs.ansible.com/ansible/latest/modules/script_module.html">script</a></h3><pre>
+</pre></p></div>
+<button class="accordion">script</button>
+<div class="panel"><p><a target="_blank" href="https://docs.ansible.com/ansible/latest/modules/script_module.html">script</a><pre>
 - name: Runs a local script on a remote node after transferring it
   script:
       chdir:                 # Change into this directory on the remote node before running the script.
@@ -304,8 +348,9 @@
       executable:            # Name or path of a executable to invoke the script with.
       free_form:             # (required) Path to the local script file followed by optional arguments. There is no parameter actually named 'free form', see the examples!
       removes:               # A filename on the remote node, when it does not exist, this step will *not* be run.
-</pre>
-<br/><hr/><h3><a href="https://docs.ansible.com/ansible/latest/modules/service_module.html">service</a></h3><pre>
+</pre></p></div>
+<button class="accordion">service</button>
+<div class="panel"><p><a target="_blank" href="https://docs.ansible.com/ansible/latest/modules/service_module.html">service</a><pre>
 - name: Manage services
   service:
       arguments:             # Additional arguments provided on the command line
@@ -321,8 +366,9 @@
                                normally.
       use:                   # The service module actually uses system specific modules, normally through auto detection, this setting can force a specific module. Normally it uses the value of the
                                'ansible_service_mgr' fact and falls back to the old 'service' module when none matching is found.
-</pre>
-<br/><hr/><h3><a href="https://docs.ansible.com/ansible/latest/modules/shell_module.html">shell</a></h3><pre>
+</pre></p></div>
+<button class="accordion">shell</button>
+<div class="panel"><p><a target="_blank" href="https://docs.ansible.com/ansible/latest/modules/shell_module.html">shell</a><pre>
 - name: Execute commands in nodes.
   shell:
       chdir:                 # cd into this directory before running the command
@@ -332,8 +378,9 @@
       removes:               # a filename, when it does not exist, this step will *not* be run.
       stdin:                 # Set the stdin of the command directly to the specified value.
       warn:                  # if command warnings are on in ansible.cfg, do not warn about this particular line if set to no/false.
-</pre>
-<br/><hr/><h3><a href="https://docs.ansible.com/ansible/latest/modules/stat_module.html">stat</a></h3><pre>
+</pre></p></div>
+<button class="accordion">stat</button>
+<div class="panel"><p><a target="_blank" href="https://docs.ansible.com/ansible/latest/modules/stat_module.html">stat</a><pre>
 - name: Retrieve file or file system status
   stat:
       checksum_algorithm:    # Algorithm to determine checksum of file. Will throw an error if the host is unable to use specified algorithm. The remote host has to support the hashing method specified, `md5' can
@@ -347,8 +394,9 @@
       get_mime:              # Use file magic and return data about the nature of the file. this uses the 'file' utility found on most Linux/Unix systems. This will add both `mime_type` and 'charset' fields to
                                the return, if possible. In 2.3 this option changed from 'mime' to 'get_mime' and the default changed to 'Yes'.
       path:                  # (required) The full path of the file/object to get the facts of.
-</pre>
-<br/><hr/><h3><a href="https://docs.ansible.com/ansible/latest/modules/template_module.html">template</a></h3><pre>
+</pre></p></div>
+<button class="accordion">template</button>
+<div class="panel"><p><a target="_blank" href="https://docs.ansible.com/ansible/latest/modules/template_module.html">template</a><pre>
 - name: Templates a file out to a remote server
   template:
       attributes:            # Attributes the file or directory should have. To get supported flags look at the man page for `chattr' on the target system. This string should contain the attributes in the same
@@ -384,8 +432,9 @@
                                securely so shell features like expansion and pipes won't work.
       variable_end_string:   # The string marking the end of a print statement.
       variable_start_string:   # The string marking the beginning of a print statement.
-</pre>
-<br/><hr/><h3><a href="https://docs.ansible.com/ansible/latest/modules/unarchive_module.html">unarchive</a></h3><pre>
+</pre></p></div>
+<button class="accordion">unarchive</button>
+<div class="panel"><p><a target="_blank" href="https://docs.ansible.com/ansible/latest/modules/unarchive_module.html">unarchive</a><pre>
 - name: Unpacks an archive after (optionally) copying it from the local machine.
   unarchive:
       attributes:            # Attributes the file or directory should have. To get supported flags look at the man page for `chattr' on the target system. This string should contain the attributes in the same
@@ -419,8 +468,9 @@
                                Ansible to perform unsafe writes). IMPORTANT! Unsafe writes are subject to race conditions and can lead to data corruption.
       validate_certs:        # This only applies if using a https URL as the source of the file. This should only set to `no' used on personally controlled sites using self-signed certificate. Prior to 2.2 the
                                code worked as if this was set to `yes'.
-</pre>
-<br/><hr/><h3><a href="https://docs.ansible.com/ansible/latest/modules/user_module.html">user</a></h3><pre>
+</pre></p></div>
+<button class="accordion">user</button>
+<div class="panel"><p><a target="_blank" href="https://docs.ansible.com/ansible/latest/modules/user_module.html">user</a><pre>
 - name: Manage user accounts
   user:
       append:                # If `yes', add the user to the groups specified in `groups'. If `no', user will only be added to the groups specified in `groups', removing them from all other groups.
@@ -465,8 +515,9 @@
       system:                # When creating an account `state=present', setting this to `yes' makes the user a system account. This setting cannot be changed on existing users.
       uid:                   # Optionally sets the `UID' of the user.
       update_password:       # `always' will update passwords if they differ.  `on_create' will only set the password for newly created users.
-</pre>
-<br/><hr/><h3><a href="https://docs.ansible.com/ansible/latest/modules/yum_module.html">yum</a></h3><pre>
+</pre></p></div>
+<button class="accordion">yum</button>
+<div class="panel"><p><a target="_blank" href="https://docs.ansible.com/ansible/latest/modules/yum_module.html">yum</a><pre>
 - name: Manages packages with the `yum' package manager
   yum:
       allow_downgrade:       # Specify if the named package and version is allowed to downgrade a maybe already installed higher version of that package. Note that setting allow_downgrade=True can make this
@@ -507,5 +558,24 @@
       validate_certs:        # This only applies if using a https url as the source of the rpm. e.g. for localinstall. If set to `no', the SSL certificates will not be validated. This should only set to `no' used
                                on personally controlled sites using self-signed certificates as it avoids verifying the source site. Prior to 2.1 the code worked as if this was set
                                to `yes'.
-</pre>
+</pre></p></div>
+
+<script>
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+  acc[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var panel = this.nextElementSibling;
+    if (panel.style.display === "block") {
+      panel.style.display = "none";
+    } else {
+      panel.style.display = "block";
+    }
+  });
+}
+</script>
+
+</body>
 </html>
