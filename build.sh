@@ -7,14 +7,23 @@
 # Created in 2019 by Dave Chouinard
 #-------------------------------------------------------------------------------
 
-MODULES='apt blockinfile command copy cron debug file group lineinfile mount package pip script service shell stat template unarchive user yum'
+MODULES='apt assert blockinfile command copy cron debug fail file group lineinfile mount package pause pip script service set_fact shell stat template unarchive user wait_for wait_for_connection yum'
+ALT_ROW='even'
 cat begin.html
 for MODULE in ${MODULES}
 do
-  echo "<button class=\"accordion\">${MODULE}</button>"
-  echo "<div class=\"panel\"><p><a target=\"_blank\" href=\"https://docs.ansible.com/ansible/latest/modules/${MODULE}_module.html\">${MODULE}</a><pre>"
+  echo "<button class=\"${ALT_ROW} accordion\">${MODULE}</button>"
+  echo '<div class="panel">'
+  echo "Ansible Doc: <a target=\"_blank\" href=\"https://docs.ansible.com/ansible/latest/modules/${MODULE}_module.html\">${MODULE}</a>"
+  echo '<pre>'
   ansible-doc -s ${MODULE}
-  echo '</pre></p></div>'
+  echo '</pre>'
+  echo '</div>'
+  if [[ "${ALT_ROW}" == "even" ]]; then
+    ALT_ROW='odd'
+  else
+    ALT_ROW='even'
+  fi
 done
 cat end.html
 
