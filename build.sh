@@ -4,8 +4,7 @@
 # an html/css accordion
 # Accordion code courtesy of: https://www.w3schools.com/
 #
-# Copyright 2019 Dave Chouinard
-# MIT License
+# Created in 2019 by Dave Chouinard
 #-------------------------------------------------------------------------------
 
 MODULES='apt blockinfile command copy cron debug file group lineinfile mount package pip script service shell stat template unarchive user yum'
