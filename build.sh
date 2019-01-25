@@ -7,7 +7,7 @@
 # Created in 2019 by Dave Chouinard
 #-------------------------------------------------------------------------------
 
-MODULES='apt assert blockinfile command copy cron debug fail file group lineinfile mount package pause pip script service set_fact shell stat template unarchive user wait_for wait_for_connection yum'
+MODULES='apt assert blockinfile command copy cron debug fail file git group lineinfile mount package pause pip script service set_fact shell stat template unarchive user wait_for wait_for_connection yum'
 ALT_ROW='even'
 cat begin.html
 for MODULE in ${MODULES}
