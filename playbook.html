@@ -1,0 +1,39 @@
+
+<div class="heading">Playbook:</div>
+<button class="even accordion">site.yml</button>
+<div class="panel">
+<pre>
+---
+# Example playbook: site.yml
+
+- hosts: all
+
+  # Optional: these tasks run before the roles
+  pre_tasks:
+  - name: do something
+    command: echo pre_tasks
+
+  roles:
+    - role_name1
+    - role_name2
+
+  # Optional: these tasks run after the roles
+  post_tasks:
+  - name: do something
+    command: echo post_tasks
+
+</pre>
+</div>
+
+<button class="odd accordion">group_vars/all</button>
+<div class="panel">
+<pre>
+---
+# Variables here are applicable to all host groups
+
+var_name1: value1
+var_name2: value2
+
+</pre>
+</div>
+

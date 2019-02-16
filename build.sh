@@ -9,7 +9,12 @@
 
 MODULES='apt assert blockinfile command copy cron debug fail file git group lineinfile mount package pause pip script service set_fact shell stat template unarchive user wait_for wait_for_connection yum'
 ALT_ROW='even'
+
 cat begin.html
+cat playbook.html
+cat role.html
+
+echo '<div class="heading">Module:</div>'
 for MODULE in ${MODULES}
 do
   echo "<button class=\"${ALT_ROW} accordion\">${MODULE}</button>"
@@ -25,6 +30,7 @@ do
     ALT_ROW='even'
   fi
 done
+
 cat end.html
 
 exit 0
